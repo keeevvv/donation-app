@@ -15,7 +15,7 @@ export default auth((req) => {
   }
 
   // Jika user sudah login tapi mencoba ke halaman login lagi
-  if (isLoggedIn && isRootPage) {
+  if (isLoggedIn && (isAuthPage || isRootPage)) {
     return Response.redirect(new URL("/dashboard", req.nextUrl))
   }
 })

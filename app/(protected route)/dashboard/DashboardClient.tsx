@@ -1,12 +1,21 @@
-"use client"
+"use client";
 
-import { signOut } from "next-auth/react"
+import { requestNotificationPermission } from "@/lib/fcm";
+import { signOut } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 export default function DashboardClient({ session }: { session: any }) {
+
+    const [token, setToken] = useState<String | null>(null);
+  useEffect(() => {
+    requestNotificationPermission().then(setToken);
+  }, []);
+
   return (
     <div>
       <h1>Halaman Dashboard</h1>
       <p>Selamat datang, {session.user?.name}</p>
+      <p>FCM Token: {token}</p>
 
       <pre>{JSON.stringify(session, null, 2)}</pre>
 
@@ -17,5 +26,5 @@ export default function DashboardClient({ session }: { session: any }) {
         Log out
       </button>
     </div>
-  )
+  );
 }
