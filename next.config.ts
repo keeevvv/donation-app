@@ -1,7 +1,21 @@
-import type { NextConfig } from "next";
+// next.config.mjs
+import withPWAInit from "@ducanh2912/next-pwa";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const withPWA = withPWAInit({
+  dest: "public",       // Folder output service worker
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: true,
+  
+  disable: process.env.NODE_ENV === "development", // Matikan PWA saat mode dev biar nggak ganggu
+  workboxOptions: {
+    disableDevLogs: true,
+  },
+});
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Konfigurasi next.js lainnya di sini
 };
 
-export default nextConfig;
+export default withPWA(nextConfig);
